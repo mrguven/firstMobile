@@ -1,117 +1,117 @@
-import { Image, StyleSheet, Platform,Button, ScrollView, SafeAreaView, useColorScheme } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Platform,
+  Button,
+  ScrollView,
+  SafeAreaView,
+  useColorScheme,
+  TouchableHighlight,
+} from 'react-native';
 
-
-import React, { useState, useEffect } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
-import axios, { AxiosResponse } from 'axios';
-import { Colors, Header } from 'react-native/Libraries/NewAppScreen';
-//import { useTranslation } from 'react-i18next';
-
+import React, {useState, useEffect} from 'react';
+import {View, Text, ActivityIndicator} from 'react-native';
+import axios from 'axios';
 
 export default function SalahTime() {
-   // const { t } = useTranslation();
-    interface Data {
-        userId: number,
-id: number,
-title: string,
-body: string
-      }
-      interface Data1 {
-        userId: number,
-id: number,
-title: string,
-body: string
-      }
-    
-      const [data, setData] = useState<Data | null>(null);
-      const [data1, setData1] = useState<AxiosResponse | null | void>(null);
-      const [loading, setLoading] = useState(true);
-    
-      useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
-            const json = await response.json();
-            setData(json);
-          } catch (error) {
-            console.error(error);
-          } finally {
-            setLoading(false);
-          }
+  // const { t } = useTranslation();
+  interface Data {
+    userId: number;
+    id: number;
+    title: string;
+    body: string;
+  }
+  interface Data1 {
+    userId: number;
+    id: number;
+    title: string;
+    body: string;
+  }
 
-          await axios('https://jsonplaceholder.typicode.com/posts/2')
-          .then(data=>setData1(data))
-          .catch(err=>console.log(err))
-
-        };
-    
-        fetchData();
-      }, []);
-    
-      if (loading) {
-        return <ActivityIndicator />;
+  const [data, setData] = useState<Data | null>(null);
+  const [data1, setData1] = useState<SalahTimeModal | null | void>(null);
+  const [data2, setData2] = useState<any | null | void>(null);
+  const [loading, setLoading] = useState(true);
+  const [count, setCount] = useState<number>(0);
+  const [localTime, setLocalTime] = useState<string>();
+  const [time, setTime] = useState<string>();
+  const [timeMessage, setTimeMessage] = useState(null);
+//use get request using fetch()
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'https://jsonplaceholder.typicode.com/posts/1',
+        );
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
       }
-    
-     
-function onPressLearnMore(){
+    };
+    let newtime = new Date().toLocaleTimeString();
 
-}
+    setTime(newtime);
+    console.log(time);
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <ActivityIndicator />;
+  }
+
+  function showTimeMessage() {}
+
+  function onPress() {
+    setCount(count + 1);
+  }
+  function onPressLearnMore() {}
 
   return (
     <SafeAreaView>
-    <ScrollView>
-      <View style={styles.titleContainer}>
-        <Text>Welcome!</Text>
-        <Header />
-      </View>
-      <View style={styles.stepContainer}>
-        <Text>Step 1: Try it</Text>
-        <Text>
-          Edit <Text>Namaz Vakitleri</Text> 
-          <Text>
-      {/* {t("screens.intro.text.login")} sdfdsf */}
-      </Text>
-          Press{' '}
-          <Text>
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </Text>{' '}
-          to open developer tools.
-        </Text>
-      </View>
-      <View style={styles.stepContainer}>
-        <Text>Time</Text>
-        <Text>
-          Namaz Vakitleri
-        </Text>
-      </View>
-      <View style={styles.stepContainer}>
-        <Text>Step 3: Get a fresh start</Text>
-        <Text>
-          When you're ready, run{' '}
-          <Text>npm run reset-project</Text> to get a fresh{' '}
-          <Text>app</Text> directory. This will move the current{' '}
-          <Text>app</Text> to{' '}
-          <Text>app-example</Text>.
-          <Text>Hello world</Text>.
-        
-        </Text>
-     
-      </View>
-      <View>
-      {data ? <Text>{data.userId}</Text> : <Text>No data found</Text>}
-      {data ? <Text>{data.title}</Text> : <Text>No data found</Text>}
-      {data ? <Text>{data.body}</Text> : <Text>No data found</Text>}
-    </View>
+      <ScrollView>
+        <View>
+          {data ? <Text>{data.userId}</Text> : <Text>No data found</Text>}
+          {data ? <Text>{data.title}</Text> : <Text>No data found</Text>}
+          {data ? (
+            <Text style={styles.demo}>{data.body}</Text>
+          ) : (
+            <Text>No data found</Text>
+          )}
+        </View>
 
+        <View>
+          {/* {data1 ? <Text>{data1}</Text> : <Text>No data found</Text>} */}
+          <Text>{time && time}</Text>
+          {data ? <Text>{data.title}</Text> : <Text>No data found</Text>}
+          {data ? (
+            <Text style={styles.demo}>{data.body}</Text>
+          ) : (
+            <Text>No data found</Text>
+          )}
+        </View>
 
-      <Button
-  onPress={onPressLearnMore}
-  title="Bir sehir secin"
-  color="#841584"
-  accessibilityLabel="Bir sehir secin"
-/>
-    </ScrollView>
-    </SafeAreaView> 
+        <Button
+          onPress={onPressLearnMore}
+          title="Bir sehir secin"
+          color="#841584"
+          accessibilityLabel="Bir sehir secin"
+        />
+
+        <View style={styles.container1}>
+          <TouchableHighlight onPress={onPress}>
+            <View style={styles.button}>
+              <Text>Touch Here</Text>
+            </View>
+          </TouchableHighlight>
+          <View style={styles.countContainer}>
+            <Text style={styles.countText}>{count || null}</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -131,5 +131,27 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     position: 'absolute',
+  },
+  demo: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'red',
+  },
+  container1: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
+  },
+  countContainer: {
+    alignItems: 'center',
+    padding: 10,
+  },
+  countText: {
+    color: '#FF00FF',
   },
 });
